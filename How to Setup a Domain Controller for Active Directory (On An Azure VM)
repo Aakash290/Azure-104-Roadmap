@@ -1,1 +1,50 @@
+Summary for the task 
 
+
+Azure ADDS
+
+
+Note: keep all user name in small later without spacing 
+VM ADDS-DC-01
+login user = dcloginuser
+password   = dc@123456789
+
+by default Administrator user 
+
+Directory Services Restore mode DSRM password = dsrm@123456
+
+NetBIOS Domain name = ADDS
+
+after install AD you can login with your domain name like 
+ADDS.local\dcloginuser
+
+
+Create new object user
+AakashRajput
+
+akcreation@2001
+
+
+change DNS(Custom) in vnet change with DC VM IP like 10.0.1.4
+
+
+Create ADDS client vm 
+username = client
+password = client@12345
+
+login and domain join
+change PC name (Advance)
+Computer description = ADDS
+Computer name = ADDS-client
+Domain name = ADDS.local
+
+Note : when we join any vm in domain controller then we have to give our DC administrator user credentials.
+
+in azure when we create vm in that the user is create for login that user called administrator user.
+
+
+okey now you can login client VM with that user which we created in DC VM in our case AakashRajput 
+
+Note : now you able to login with that user but you get one error for authorized for remote login so you have to add this user in RDP group in you client vm and when you add any user for RDP which is created in you DC vm then after add user one popup come and you have to give DC vm administrator credentials.
+
+Now you can login successfully your clint vm with that user which is created in your ADDS server (Domain controller) and now you can consider that your ADDS server configure perfectly 
