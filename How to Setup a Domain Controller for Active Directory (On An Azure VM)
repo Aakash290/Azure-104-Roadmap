@@ -48,3 +48,23 @@ okey now you can login client VM with that user which we created in DC VM in our
 Note : now you able to login with that user but you get one error for authorized for remote login so you have to add this user in RDP group in you client vm and when you add any user for RDP which is created in you DC vm then after add user one popup come and you have to give DC vm administrator credentials.
 
 Now you can login successfully your clint vm with that user which is created in your ADDS server (Domain controller) and now you can consider that your ADDS server configure perfectly 
+
+
+
+#
+# Windows PowerShell script for AD DS Deployment
+#
+
+Import-Module ADDSDeployment
+Install-ADDSForest `
+-CreateDnsDelegation:$false `
+-DatabasePath "C:\Windows\NTDS" `
+-DomainMode "WinThreshold" `
+-DomainName "ADDS.local" `
+-DomainNetbiosName "ADDS" `
+-ForestMode "WinThreshold" `
+-InstallDns:$true `
+-LogPath "C:\Windows\NTDS" `
+-NoRebootOnCompletion:$false `
+-SysvolPath "C:\Windows\SYSVOL" `
+-Force:$true
