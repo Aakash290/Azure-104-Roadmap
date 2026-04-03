@@ -68,3 +68,111 @@ Install-ADDSForest `
 -NoRebootOnCompletion:$false `
 -SysvolPath "C:\Windows\SYSVOL" `
 -Force:$true
+
+
+
+
+
+✅ Step 1: Create a Virtual Machine in Azure
+Go to Azure Portal
+Click Virtual Machines → Create → Azure Virtual Machine
+Fill details:
+Resource Group → Create new (e.g., RG-ADDS)
+VM Name → DC-VM
+Region → Same as your resources
+Image → Windows Server 2019/2022
+Size → At least Standard B2s
+Administrator Account:
+Username: azureadmin
+Password: Set strong password
+Networking:
+Create new Virtual Network
+Example:
+VNet: 10.0.0.0/16
+Subnet: 10.0.0.0/24
+Click Review + Create → Create
+✅ Step 2: Set Static Private IP
+
+After VM is created:
+
+Go to VM → Networking
+Click Network Interface
+Go to IP Configuration
+Change:
+Private IP Assignment → Static
+Save
+
+👉 This is important because DC should not change IP.
+
+✅ Step 3: Configure DNS to Point to Itself
+Go to Virtual Network
+Click DNS Servers
+Select:
+Custom
+Add IP: (your DC private IP) (e.g., 10.0.0.4)
+Save
+✅ Step 4: Connect to VM (RDP)
+Download RDP file
+Login using admin credentials
+✅ Step 5: Install AD DS Role
+
+Inside VM:
+
+Open Server Manager
+Click:
+Add Roles and Features
+Select:
+Role-based installation
+Choose your VM
+Select:
+✅ Active Directory Domain Services
+Click Next → Install
+✅ Step 6: Promote VM to Domain Controller
+
+After installation:
+
+In Server Manager → Click:
+⚠️ Promote this server to a domain controller
+Choose:
+✅ Add a new forest
+Enter:
+Root domain name: mydomain.local
+Set:
+DSRM password
+Next → Install
+
+👉 VM will restart automatically
+
+✅ Step 7: Verify AD DS
+
+After reboot:
+
+Login as:
+
+mydomain\azureadmin
+Open:
+Active Directory Users and Computers
+Verify domain created successfully
+✅ Step 8: Configure NSG (Important)
+
+Allow required ports:
+
+RDP → 3389
+DNS → 53
+LDAP → 389
+Kerberos → 88
+✅ Step 9: Join Other VM to Domain (Optional)
+Create another VM
+Set DNS → DC private IP
+Go to:
+System → Change settings → Domain
+
+Enter:
+
+mydomain.local
+🔥 Architecture Diagram (Simple)
+Azure VNet (10.0.0.0/16)
+│
+├── Subnet (10.0.0.0/24)
+│    ├── DC-VM (AD DS + DNS) → 10.0.0.4
+│    └── Client VM → Domain Joined
