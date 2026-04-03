@@ -1,0 +1,70 @@
+🔹 What is Azure AD Connect?
+
+It is a tool used to sync:
+
+On-prem Active Directory (DC VM)
+➡️ with
+Azure AD (Microsoft Entra ID)
+⚠️ Before Installation (Prerequisites)
+
+Make sure these are ready:
+
+✅ 1. Domain Controller VM
+Windows Server (2016/2019/2022)
+Active Directory installed
+
+✅ 2. Azure AD Account
+Global Admin access in Azure
+
+✅ 3. Internet Access
+DC VM must access internet
+
+✅ 4. .NET Framework
+Minimum .NET 4.7.1
+
+🔹 Step 1: Download Tool
+Open browser in your DC VM
+Go to official site
+Download Azure AD Connect
+
+🔹 Step 2: Start Installation
+Run the installer
+Click I agree
+Click Continue
+🔹 Step 3: Choose Installation Type
+
+👉 You will see two options:
+
+✔️ Express Settings (Recommended for beginners)
+Sync all users automatically
+Minimal configuration
+
+👉 Click Use Express Settings
+
+🔹 Step 4: Connect Azure AD
+Enter your Azure Global Admin credentials
+🔹 Step 5: Connect On-Prem AD
+Enter your Domain Admin credentials
+🔹 Step 6: Configure Sync
+It will auto-detect domain
+Keep default settings (for learning/lab)
+
+Click Next → Install
+
+🔹 Step 7: Finish Installation
+Installation will complete
+Sync will start automatically
+🔄 Step 8: Verify Sync
+Go to Azure Portal
+Open Microsoft Entra ID
+Check Users
+
+👉 Your on-prem users should appear there
+
+🔧 Optional (Manual Sync Command)
+
+If you want to force sync:
+
+Open PowerShell:
+
+Start-ADSyncSyncCycle -PolicyType Delta
